@@ -5,3 +5,4 @@ numpy==1.19.4
 tf-nightly==2.5.0.dev20201229
 transformers==4.1.1
 scikit-learn==0.24.0
+django-pandas==0.6.2
