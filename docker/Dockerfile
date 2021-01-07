@@ -21,4 +21,5 @@ RUN git clone git@github.com:yotaro-shimose/GunosyClassifier.git
 
 # RUN conda activate gunosy && \
 RUN cd GunosyClassifier && \
-    pip install -r requirement.txt
+    pip install -r requirement.txt && \
+    pip install transformers["ja"]
