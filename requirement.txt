@@ -1,0 +1,7 @@
+beautifulsoup4==4.9.3
+Django==1.11
+janome==0.4.1
+numpy==1.19.4
+tf-nightly==2.5.0.dev20201229
+transformers==4.1.1
+fugashi==1.0.5

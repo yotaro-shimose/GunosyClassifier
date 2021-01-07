@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block header %}
+<div class="jumbotron">
+  <div class="container">
+    <h1 class="display-4">グノシーのニュースを分析します</h1>
+    <p class="lead">Enter the URL</p>
+  </div>
+</div>
+{% endblock header %}
+
+{% block content %}
+<div class="container">
+  <form action='guess' method='GET'>
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="button" class="btn btn-info" id="guess" value="取得する">
+    <p>
+    <div id="result"></div>
+    </p>
+  </form>
+</div>
+{% endblock content %}
