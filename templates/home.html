@@ -10,13 +10,20 @@
 {% endblock header %}
 
 {% block content %}
+<div id="overlay">
+  <div class="cv-spinner">
+    <span class="spinner"></span>
+  </div>
+</div>
 <div class="container">
-  <form action='guess' method='GET'>
+  <form method='GET'>
     {% csrf_token %}
-    {{ form.as_p }}
-    <input type="button" class="btn btn-info" id="guess" value="取得する">
+    <div class='form-group input-text'>
+      {{ form }}
+    </div>
+    <input type="button" class="btn btn-info btn-lg" id="guess" value="取得する">
     <p>
-    <div id="result"></div>
+    <div id="result" class='result-text'></div>
     </p>
   </form>
 </div>

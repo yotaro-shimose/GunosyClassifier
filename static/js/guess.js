@@ -1,5 +1,7 @@
 $('#guess').on('click', function () {
     $('#result').text('通信中...');
+    //インジケータ表示
+    var indicator = $("#overlay").show()
     $.ajax({
         url: 'guess',
         type: 'GET',
@@ -9,8 +11,9 @@ $('#guess').on('click', function () {
         timeout: 5000,
     })
         .done(function (data) {
+            //インジケータ除去
+            indicator.hide();
             status = data.status
-            console.log(data)
             if (status == '200') {
                 result = '予測カテゴリー：' + data.category
             }
@@ -20,8 +23,9 @@ $('#guess').on('click', function () {
             $('#result').text(result);
         })
         .fail(function () {
+            //インジケータ除去
+            indicator.hide();
             // 通信失敗時の処理を記述
             $('#result').text('システムエラー');
-
         });
 })
