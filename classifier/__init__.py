@@ -103,7 +103,7 @@ class Form:
     URL_PLACEHOLDER = 'https://xxxxx.com'
 
     # URLのCSSクラス名
-    URL_CLASS_NAME = 'URL'
+    URL_CLASS_NAME = 'form-control col-sm-6'
 
 
 class Model:
