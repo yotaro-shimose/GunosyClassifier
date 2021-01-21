@@ -10,16 +10,8 @@ RUN set -x && \
 RUN set -x && \
     apt install -y git
 
+COPY ./ GunosyClassifier/
 
-RUN mkdir /root/.ssh
-COPY ./ssh/id_rsa /root/.ssh
-COPY ./ssh/id_rsa.pub /root/.ssh
-COPY ./ssh/config /root/.ssh
-RUN ssh-keyscan github.com >> /root/.ssh/known_hosts
-# Clone repository
-RUN git clone git@github.com:yotaro-shimose/GunosyClassifier.git
-
-# RUN conda activate gunosy && \
 RUN cd GunosyClassifier && \
-    pip install -r requirement.txt && \
+    pip install -r ./docker/requirement.txt && \
     pip install transformers["ja"]
