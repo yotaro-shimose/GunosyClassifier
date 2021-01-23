@@ -15,7 +15,7 @@ def load_dataset():
     queryset = News.objects.all()
     df = read_frame(queryset)
     # shuffle dataset
-    df = df.sample(frac=1)
+    df = df.sample(frac=1)[:Evaluation.MAXIMUM_DATA_SIZE]
     texts = df[FieldName.TEXT]
     labels = df[FieldName.CATEGORY]
     test_ratio = Evaluation.TEST_RATIO
@@ -26,7 +26,7 @@ def load_dataset():
 
 
 class Command(BaseCommand):
-    help = 'データセット全体から8割をトレーニングデータに、２割をテストデータにして精度をプリントする'
+    help = 'データセット全体から8割をトレーニングデータに２割をテストデータにして精度をプリントする'
 
     def add_arguments(self, parser):
         parser.add_argument('-s', '--stopwords', nargs='?',

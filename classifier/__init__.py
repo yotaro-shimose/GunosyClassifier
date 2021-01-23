@@ -171,10 +171,15 @@ class ErrorMessage:
 
 
 class Evaluation:
+    """
+    NaiveBayesのパラメータを格納する定数クラス
+    """
     # Training時のBatchSize。メモリと速度のトレードオフ。最終的に出来上がるモデルには影響なし。
     BATCH_SIZE = 128
     # TestData/WholeDataの割合
     TEST_RATIO = 0.2
+    # Training時の最大データサイズ
+    MAXIMUM_DATA_SIZE = 4000
 
 
 # カテゴリindexからカテゴリ文字列への逆引きリスト
@@ -189,4 +194,6 @@ CATEGORY_MAP = [
     'グルメ',
 ]
 
+# Classifierの選択(NaiveBayes vs BertFeatureClassifier)
 CLASSIFIER_TYPE = ClassifierIndex.BFC
+# CLASSIFIER_TYPE = ClassifierIndex.NAIVEBAYES

@@ -1,5 +1,6 @@
 from classifier.lib.bfc import BertFeatureClassifier
 from classifier.models import News
+from classifier import Evaluation
 from django.core.management.base import BaseCommand
 from django_pandas.io import read_frame
 
@@ -11,9 +12,8 @@ class FieldName:
 
 def load_dataset():
     queryset = News.objects.all()
-    df = read_frame(queryset)
-    # shuffle dataset
-    df = df.sample(frac=1)
+    df = read_frame(queryset).sample(frac=1)
+    df = df.sample(frac=1)[:Evaluation.MAXIMUM_DATA_SIZE]
     texts = df[FieldName.TEXT]
     labels = df[FieldName.CATEGORY]
     return texts, labels
