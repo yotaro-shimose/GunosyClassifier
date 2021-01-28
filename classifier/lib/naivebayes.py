@@ -56,7 +56,7 @@ class NaiveBayesClassifier(tf.keras.Model):
             initializer=initializer
         )
         self._category_counts.assign(
-            n_category*self._category_counts * self._init_count)
+            n_category * self._category_counts * self._init_count)
 
     def train(self, x: tf.Tensor, y: tf.Tensor):
         """x, yを用いて学習（同じ学習データを入力しないように注意）
@@ -97,7 +97,7 @@ class NaiveBayesClassifier(tf.keras.Model):
         embedding = tf.cast(embedding, tf.float32)
         # B, C, V
         posteriors = tf.einsum(Equation.DOT, embedding, probabilities) + \
-            tf.einsum(Equation.DOT, 1.-embedding, 1.-probabilities)
+            tf.einsum(Equation.DOT, 1. - embedding, 1. - probabilities)
         # B, C
         log_posterior = tf.math.reduce_sum(tf.math.log(
             posteriors), axis=-1) + tf.math.log(category_distribution)
