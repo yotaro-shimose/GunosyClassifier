@@ -25,7 +25,14 @@ class NaiveBayesClassifier(tf.keras.Model):
 
     """
 
-    def __init__(self, n_vocab: int, n_category: int, init_count: int = 1, *args, **kwargs):
+    def __init__(
+        self,
+        n_vocab: int,
+        n_category: int,
+        init_count: int = 1,
+        *args,
+        **kwargs
+    ):
         super().__init__(*args, **kwargs)
         self._n_category = n_category
         self._n_vocab = n_vocab
@@ -34,12 +41,20 @@ class NaiveBayesClassifier(tf.keras.Model):
         initializer = tf.keras.initializers.Ones()
         # C, V
         self._counts: tf.Variable = self.add_weight(
-            name=VariableName.COUNTS, shape=shape, dtype=tf.int32, initializer=initializer)
+            name=VariableName.COUNTS,
+            shape=shape,
+            dtype=tf.int32,
+            initializer=initializer
+        )
         self._counts.assign(self._counts * self._init_count)
         # C
         shape = (n_category,)
         self._category_counts: tf.Variable = self.add_weight(
-            name=VariableName.CATEGORY_COUNTS, shape=shape, dtype=tf.int32, initializer=initializer)
+            name=VariableName.CATEGORY_COUNTS,
+            shape=shape,
+            dtype=tf.int32,
+            initializer=initializer
+        )
         self._category_counts.assign(
             n_category*self._category_counts * self._init_count)
 
@@ -76,15 +91,16 @@ class NaiveBayesClassifier(tf.keras.Model):
         probabilities = tf.cast(self._counts / divisor, tf.float32)
         # 1, C
         category_distribution = tf.cast(tf.expand_dims(
-            self._category_counts / tf.reduce_sum(self._category_counts), axis=0), tf.float32)
+            self._category_counts / tf.reduce_sum(self._category_counts),
+            axis=0), tf.float32)
         # B, V
         embedding = tf.cast(embedding, tf.float32)
         # B, C, V
         posteriors = tf.einsum(Equation.DOT, embedding, probabilities) + \
             tf.einsum(Equation.DOT, 1.-embedding, 1.-probabilities)
         # B, C
-        log_posterior = tf.math.reduce_sum(
-            tf.math.log(posteriors), axis=-1) + tf.math.log(category_distribution)
+        log_posterior = tf.math.reduce_sum(tf.math.log(
+            posteriors), axis=-1) + tf.math.log(category_distribution)
         predicts = tf.math.argmax(
             log_posterior, axis=-1, output_type=tf.int32)
         return predicts

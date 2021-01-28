@@ -7,7 +7,12 @@ class DatasetGenerator:
     tf.data.Datasetオブジェクトをリターンする。
     """
 
-    def __init__(self, queryset, training: bool = True, remove_stopwords: bool = False):
+    def __init__(
+        self,
+        queryset,
+        training: bool = True,
+        remove_stopwords: bool = False
+    ):
         self._embeddings = list()
         self._category = list()
         self._training = training
@@ -32,9 +37,11 @@ class DatasetGenerator:
 
     @ property
     def output_signature(self):
-        signature = (tf.TensorSpec(shape=(self._converter.n_vocab,), dtype=tf.int32),
+        signature = (tf.TensorSpec(shape=(self._converter.n_vocab,),
+                                   dtype=tf.int32),
                      tf.TensorSpec(shape=(), dtype=tf.int32))
         return signature
 
     def as_dataset(self):
-        return tf.data.Dataset.from_tensor_slices((self._embeddings, self._category))
+        return tf.data.Dataset.from_tensor_slices(
+            (self._embeddings, self._category))
