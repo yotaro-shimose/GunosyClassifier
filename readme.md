@@ -79,7 +79,8 @@ confusion_matrix:
 ```
 
 ## BertFeatureClassifier(scrape ×2)
-データを２倍にした学習の結果
+用いる記事を7910個に増量した場合のBertFeatureClassifierの精度も示す。
+評価は上に習い8:2の比率でトレーニングデータ、テストデータに分割して行った。
 
 ```python manage.py evaluate_bfc```
 
