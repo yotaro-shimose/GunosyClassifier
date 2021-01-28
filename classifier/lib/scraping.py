@@ -1,6 +1,7 @@
 import requests
 from bs4 import BeautifulSoup
 import time
+import logging
 
 from classifier.models import News
 from classifier import Scraiping, ErrorMessage
@@ -96,8 +97,12 @@ def get_url_text_list(category_no_list):
             url_list.extend(temp_url_list)
 
             # URL先から本文を取得
-            text_list.extend([get_text(url)
-                              for url in temp_url_list])
+            try:
+                text_list.extend([get_text(url)
+                                  for url in temp_url_list])
+            except IllegalStructureException as e:
+                logging.warn(str(e))
+                continue
     return url_list, text_list
 
 
