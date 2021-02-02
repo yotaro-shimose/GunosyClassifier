@@ -1,6 +1,6 @@
 # Gunosy入社試験用のテキスト分類モジュール
 
-以下のDjango Customコマンドが用意されている
+以下のカスタムコマンドが用意されている
 - `scrape`: [Gunosy](https://gunosy.com/)から現在掲載されている全カテゴリの全記事を抽出しデータセットの格納する。
 - `train`: データベース上にあるデータを使ってNaiveBayesをトレーニングする。scrapeを実行した後でなければ実行できない。
 - `evaluate`: データベース上にあるデータを使ってNaiveBayesモデルをトレーニングし精度を評価する（モデルは直ちに破棄される）。
@@ -15,9 +15,13 @@
 
 ```docker build -t image_name -f ./docker/Dockerfile .```
 
-コンテナイメージにはすでにソースコードがコピーされるのでマウントする必要はない。例えば以下のようなコマンドで実行できる。
+例えば以下のようなコマンドで上記のカスタムコマンドを受け付けることができる。
 
-```docker run -it --rm image_name```
+```
+docker run -it --rm -v volume_name:/GunosyClassifier/data image_name bash
+cd GunosyClassifier
+python manage.py custom_command_name
+```
 
 # テキスト分類手法
 ## NaiveBayesClassifier
