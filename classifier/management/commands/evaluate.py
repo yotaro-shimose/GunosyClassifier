@@ -15,7 +15,8 @@ class Command(BaseCommand):
         parser.add_argument('-i', '--initcount',
                             nargs=1, default=1, type=int)
 
-    def handle(self, stopwords: bool = False, initcount: int = 1, *args, **options):
+    def handle(self, stopwords: bool = False,
+               initcount: int = 1, *args, **options):
         batch_size = Evaluation.BATCH_SIZE
         test_ratio = Evaluation.TEST_RATIO
         queryset = News.objects.all()

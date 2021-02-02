@@ -104,7 +104,8 @@ class Word2Index(Converter):
         nounlist = list()
         for token in self._tokenizer.tokenize(text):
             if token.extra is not None and \
-                    token.extra[TC.PART_OF_SPEECH_INDEX].split(TC.SPLITTER)[TC.PRIMARY] == TC.NOUN:
+                token.extra[TC.PART_OF_SPEECH_INDEX] \
+                    .split(TC.SPLITTER)[TC.PRIMARY] == TC.NOUN:
                 nounlist.append(str(token.extra[-3]))
         return nounlist
 

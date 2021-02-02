@@ -86,7 +86,7 @@ def get_url_text_list(category_no_list):
     for category_no in category_no_list:
         for page in range(Scraiping.MAX_PAGE):
             # 記事一覧のHTML取得
-            bs = get_html(Scraiping.BASE_URL.format(category_no, page+1))
+            bs = get_html(Scraiping.BASE_URL.format(category_no, page + 1))
 
             # HTMLから各記事を抽出
             title_list = bs.select(Scraiping.NEWS_LIST_CLASS)
