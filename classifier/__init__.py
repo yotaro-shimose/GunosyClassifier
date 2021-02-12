@@ -175,7 +175,7 @@ class Evaluation:
     NaiveBayesのパラメータを格納する定数クラス
     """
     # Training時のBatchSize。メモリと速度のトレードオフ。最終的に出来上がるモデルには影響なし。
-    BATCH_SIZE = 128
+    BATCH_SIZE = 32
     # TestData/WholeDataの割合
     TEST_RATIO = 0.2
     # Training時の最大データサイズ

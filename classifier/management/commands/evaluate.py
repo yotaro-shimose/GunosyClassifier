@@ -43,7 +43,7 @@ class Command(BaseCommand):
         predictions = tf.concat(predictions, axis=0)
         targets = tf.concat(targets, axis=0)
         accuracy = tf.reduce_sum(tf.cast(targets == predictions,
-                                         dtype=tf.int32)) / y.shape[0]
+                                         dtype=tf.int32)) / targets.shape[0]
         confusion_matrix = tf.math.confusion_matrix(targets, predictions)
         print('accuracy: {}'.format(accuracy))
         print('confusion_matrix: {}'.format(confusion_matrix))
