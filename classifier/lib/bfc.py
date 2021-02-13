@@ -53,15 +53,17 @@ class BertFeatureClassifier:
         encoded = list()
         n_iterations = len(texts) // Evaluation.BATCH_SIZE + 1
         for i in range(n_iterations):
-            minibatch = texts[i *
-                              Evaluation.BATCH_SIZE: (i + 1) * Evaluation.BATCH_SIZE]
-            minibatch_encoded: BatchEncoding = self._tokenizer.batch_encode_plus(
-                batch_text_or_text_pairs=minibatch,
-                return_tensors=TokenizerOptions.TENSOR_TYPE,
-                return_attention_mask=False,
-                truncation=True,
-                padding=TokenizerOptions.PADDING_STRATEGY,
-            )
+            start = i * Evaluation.BATCH_SIZE
+            end = (i + 1) * Evaluation.BATCH_SIZE
+            minibatch = texts[start: end]
+            minibatch_encoded: BatchEncoding = \
+                self._tokenizer.batch_encode_plus(
+                    batch_text_or_text_pairs=minibatch,
+                    return_tensors=TokenizerOptions.TENSOR_TYPE,
+                    return_attention_mask=False,
+                    truncation=True,
+                    padding=TokenizerOptions.PADDING_STRATEGY,
+                )
             encoded.append(minibatch_encoded.input_ids)
         token = tf.concat(encoded, axis=0)
         dataset = tf.data.Dataset.from_tensor_slices(
