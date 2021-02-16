@@ -51,7 +51,8 @@ class BertFeatureClassifier:
 
     def _compute_embedding(self, texts: List[str]):
         encoded = list()
-        n_iterations = (len(texts) + Evaluation.BATCH_SIZE - 1)// Evaluation.BATCH_SIZE
+        n_iterations = (len(texts) + Evaluation.BATCH_SIZE - 1) \
+            // Evaluation.BATCH_SIZE
         for i in range(n_iterations):
             start = i * Evaluation.BATCH_SIZE
             end = (i + 1) * Evaluation.BATCH_SIZE
