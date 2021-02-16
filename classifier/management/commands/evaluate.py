@@ -34,10 +34,16 @@ class Command(BaseCommand):
         for x, y in training_dataset.batch(batch_size):
             model.train(x, y)
 
-        x, y = next(iter(test_dataset.batch(test_size)))
-        pred_y = model(x)
-        accuracy = tf.reduce_sum(tf.cast(y == pred_y,
-                                         dtype=tf.int32)) / y.shape[0]
-        confusion_matrix = tf.math.confusion_matrix(y, pred_y)
+        predictions = list()
+        targets = list()
+        for x, y in test_dataset.batch(batch_size):
+            pred_y = model(x)
+            predictions.append(pred_y)
+            targets.append(y)
+        predictions = tf.concat(predictions, axis=0)
+        targets = tf.concat(targets, axis=0)
+        accuracy = tf.reduce_sum(tf.cast(targets == predictions,
+                                         dtype=tf.int32)) / targets.shape[0]
+        confusion_matrix = tf.math.confusion_matrix(targets, predictions)
         print('accuracy: {}'.format(accuracy))
         print('confusion_matrix: {}'.format(confusion_matrix))

@@ -23,11 +23,13 @@ class DatasetGenerator:
     def _prepare(self, queryset):
         self._n_data = 0
         for news in queryset:
+            text = news.text
+            category = news.category
             self._n_data += 1
             self._embeddings.append(
-                self._converter.encode(news.text, training=self._training))
+                self._converter.encode(text, training=self._training))
             self._category.append(tf.constant(
-                int(news.category), dtype=tf.int32))
+                int(category), dtype=tf.int32))
         self._embeddings = [tf.constant(self._converter.decode(
             embedding), dtype=tf.int32) for embedding in self._embeddings]
 

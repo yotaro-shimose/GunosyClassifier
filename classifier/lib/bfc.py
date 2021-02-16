@@ -35,6 +35,10 @@ class ModelName:
 
 
 class BertFeatureClassifier:
+    """BERTを用いてテキストを784次元の特徴量に変換し
+    この特徴量の上で古典的分類器をトレーニングするクラス
+    """
+
     def __init__(self, load_clf=False):
         self._tokenizer = BertJapaneseTokenizer.from_pretrained(
             ModelName.BERT_BASE_JAPANESE_WWM)
@@ -46,14 +50,22 @@ class BertFeatureClassifier:
             self._clf = RandomForestClassifier()
 
     def _compute_embedding(self, texts: List[str]):
-        encoded: BatchEncoding = self._tokenizer.batch_encode_plus(
-            batch_text_or_text_pairs=texts,
-            return_tensors=TokenizerOptions.TENSOR_TYPE,
-            return_attention_mask=False,
-            truncation=True,
-            padding=TokenizerOptions.PADDING_STRATEGY,
-        )
-        token = encoded.input_ids
+        encoded = list()
+        n_iterations = len(texts) // Evaluation.BATCH_SIZE + 1
+        for i in range(n_iterations):
+            start = i * Evaluation.BATCH_SIZE
+            end = (i + 1) * Evaluation.BATCH_SIZE
+            minibatch = texts[start: end]
+            minibatch_encoded: BatchEncoding = \
+                self._tokenizer.batch_encode_plus(
+                    batch_text_or_text_pairs=minibatch,
+                    return_tensors=TokenizerOptions.TENSOR_TYPE,
+                    return_attention_mask=False,
+                    truncation=True,
+                    padding=TokenizerOptions.PADDING_STRATEGY,
+                )
+            encoded.append(minibatch_encoded.input_ids)
+        token = tf.concat(encoded, axis=0)
         dataset = tf.data.Dataset.from_tensor_slices(
             token).batch(Evaluation.BATCH_SIZE)
         embedding = list()
